@@ -3,7 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>愛犬の無料診断</title>
+  <meta name="robots" content="noindex,nofollow">
+  <title>愛犬の無料診断（試作版）</title>
   <style>
     body {
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
@@ -78,7 +79,7 @@
 <body>
 
   <div class="container">
-    <h1>🐾 愛犬の無料診断 🐾</h1>
+    <h1>🐾 愛犬の無料診断（試作版） 🐾</h1>
     <p>生年月日を選択して「診断する」を押してください</p>
     
     <input type="date" id="birthdate">
@@ -95,7 +96,7 @@
         <img id="result-img-2" class="result-image" src="" alt="診断結果画像2">
       </div>
       
-      <!-- 有料版（STORES等）への誘導ボタン -->
+      <!-- 有料版への誘導ボタン（STORESのURLが決まったら下記を書き換えてください） -->
       <div>
         <a id="stores-link" href="https://あなたのSTORESショップURL.stores.jp" class="order-btn" target="_blank">
           名前入り【パーソナル鑑定書】を注文する（1,111円）
@@ -105,6 +106,16 @@
   </div>
 
   <script>
+    // ★ 簡易パスワード機能（"nakamura" に設定済み） ★
+    const PASSWORD = "nakamura";
+    
+    let userInput = prompt("パスワードを入力してください（関係者限定）");
+    if (userInput !== PASSWORD) {
+      alert("パスワードが違います。ページを読み込み直してください。");
+      document.body.innerHTML = "<h2 style='margin-top:50px;'>閲覧権限がありません。</h2>";
+    }
+
+    // 数秘計算ロジック
     function calculateNumber(dateString) {
       if (!dateString) return null;
       let digits = dateString.replace(/-/g, '');
@@ -123,6 +134,7 @@
       return sum;
     }
 
+    // 診断実行関数（直下参照ファイル名指定）
     function diagnose() {
       const dateInput = document.getElementById('birthdate').value;
       if (!dateInput) {
@@ -132,7 +144,6 @@
 
       const resultNum = calculateNumber(dateInput);
       
-      // ★ images/ を削除し、画像を直接参照するように修正しました ★
       const imageMap = {
         1: ['1-1.jpg', '1-2.jpg'],
         2: ['2-1.jpg', '2-2.jpg'],
