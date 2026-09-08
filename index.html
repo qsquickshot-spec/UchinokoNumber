@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>愛犬の無料診断</title>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background-color: #fdfbf7;
+      color: #4a4a4a;
+      text-align: center;
+      padding: 20px;
+      margin: 0;
+    }
+    .container {
+      max-width: 500px;
+      margin: 0 auto;
+      background: #ffffff;
+      padding: 30px 20px;
+      border-radius: 16px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    }
+    h1 {
+      font-size: 1.5rem;
+      color: #8b5cf6;
+      margin-bottom: 20px;
+    }
+    label {
+      display: block;
+      margin-bottom: 10px;
+      font-weight: bold;
+    }
+    input[type="date"] {
+      width: 80%;
+      padding: 12px;
+      font-size: 1rem;
+      border: 2px solid #e2e8f0;
+      border-radius: 8px;
+      margin-bottom: 20px;
+      outline: none;
+    }
+    button {
+      background-color: #8b5cf6;
+      color: white;
+      border: none;
+      padding: 12px 32px;
+      font-size: 1rem;
+      font-weight: bold;
+      border-radius: 25px;
+      cursor: pointer;
+      transition: background-color 0.2s;
+    }
+    button:hover {
+      background-color: #7c3aed;
+    }
+    #result-area {
+      margin-top: 30px;
+      display: none;
+    }
+    .image-container {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      margin-top: 15px;
+    }
+    .result-image {
+      width: 100%;
+      height: auto;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    .order-btn {
+      display: inline-block;
+      margin-top: 30px;
+      background-color: #ff6b81;
+      color: white;
+      text-decoration: none;
+      padding: 14px 28px;
+      font-size: 1rem;
+      font-weight: bold;
+      border-radius: 25px;
+      box-shadow: 0 4px 10px rgba(255, 107, 129, 0.3);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h1>🐾 愛犬の無料診断 🐾</h1>
+    <p>生年月日を選択して「診断する」を押してください</p>
+    
+    <input type="date" id="birthdate">
+    <br>
+    <button onclick="diagnose()">診断する</button>
+
+    <!-- 結果表示エリア -->
+    <div id="result-area">
+      <h2>診断結果タイプ：<span id="result-number"></span></h2>
+      
+      <!-- 画像2枚の表示領域 -->
+      <div class="image-container">
+        <img id="result-img-1" class="result-image" src="" alt="診断結果画像1">
+        <img id="result-img-2" class="result-image" src="" alt="診断結果画像2">
+      </div>
+      
+      <!-- 有料版への誘導ボタン（URLを書き換えてください） -->
+      <div>
+        <a id="stores-link" href="https://あなたのSTORESショップURL.stores.jp" class="order-btn" target="_blank">
+          名前入り【パーソナル鑑定書】を注文する（1,111円）
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // 数秘計算ロジック
+    function calculateNumber(dateString) {
+      if (!dateString) return null;
+      let digits = dateString.replace(/-/g, '');
+      let sum = 0;
+      for (let i = 0; i < digits.length; i++) {
+        sum += parseInt(digits[i]);
+      }
+      while (sum > 9 && sum !== 11 && sum !== 22 && sum !== 33) {
+        let tempSum = 0;
+        let sumStr = sum.toString();
+        for (let i = 0; i < sumStr.length; i++) {
+          tempSum += parseInt(sumStr[i]);
+        }
+        sum = tempSum;
+      }
+      return sum;
+    }
+
+    // 診断ボタンを押した時の処理
+    function diagnose() {
+      const dateInput = document.getElementById('birthdate').value;
+      if (!dateInput) {
+        alert('生年月日を選択してください');
+        return;
+      }
+
+      const resultNum = calculateNumber(dateInput);
+      
+      // ★PNGからJPGへ変更しました★
+      // images/フォルダの中にある「1-1.jpg」などを読み込みます。
+      const imageMap = {
+        1: ['images/1-1.jpg', 'images/1-2.jpg'],
+        2: ['images/2-1.jpg', 'images/2-2.jpg'],
+        3: ['images/3-1.jpg', 'images/3-2.jpg'],
+        4: ['images/4-1.jpg', 'images/4-2.jpg'],
+        5: ['images/5-1.jpg', 'images/5-2.jpg'],
+        6: ['images/6-1.jpg', 'images/6-2.jpg'],
+        7: ['images/7-1.jpg', 'images/7-2.jpg'],
+        8: ['images/8-1.jpg', 'images/8-2.jpg'],
+        9: ['images/9-1.jpg', 'images/9-2.jpg'],
+        11: ['images/11-1.jpg', 'images/11-2.jpg'],
+        22: ['images/22-1.jpg', 'images/22-2.jpg'],
+        33: ['images/33-1.jpg', 'images/33-2.jpg']
+      };
+
+      // 結果の数字と画像をセット
+      document.getElementById('result-number').innerText = resultNum;
+      document.getElementById('result-img-1').src = imageMap[resultNum][0];
+      document.getElementById('result-img-2').src = imageMap[resultNum][1];
+      
+      // 結果エリアを表示
+      document.getElementById('result-area').style.display = 'block';
+    }
+  </script>
+
+</body>
+</html>
