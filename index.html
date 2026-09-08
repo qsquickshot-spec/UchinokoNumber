@@ -26,11 +26,6 @@
       color: #8b5cf6;
       margin-bottom: 20px;
     }
-    label {
-      display: block;
-      margin-bottom: 10px;
-      font-weight: bold;
-    }
     input[type="date"] {
       width: 80%;
       padding: 12px;
@@ -49,10 +44,6 @@
       font-weight: bold;
       border-radius: 25px;
       cursor: pointer;
-      transition: background-color 0.2s;
-    }
-    button:hover {
-      background-color: #7c3aed;
     }
     #result-area {
       margin-top: 30px;
@@ -104,7 +95,7 @@
         <img id="result-img-2" class="result-image" src="" alt="診断結果画像2">
       </div>
       
-      <!-- 有料版への誘導ボタン（URLを書き換えてください） -->
+      <!-- 有料版（STORES等）への誘導ボタン -->
       <div>
         <a id="stores-link" href="https://あなたのSTORESショップURL.stores.jp" class="order-btn" target="_blank">
           名前入り【パーソナル鑑定書】を注文する（1,111円）
@@ -114,7 +105,6 @@
   </div>
 
   <script>
-    // 数秘計算ロジック
     function calculateNumber(dateString) {
       if (!dateString) return null;
       let digits = dateString.replace(/-/g, '');
@@ -133,7 +123,6 @@
       return sum;
     }
 
-    // 診断ボタンを押した時の処理
     function diagnose() {
       const dateInput = document.getElementById('birthdate').value;
       if (!dateInput) {
@@ -143,29 +132,26 @@
 
       const resultNum = calculateNumber(dateInput);
       
-      // ★PNGからJPGへ変更しました★
-      // images/フォルダの中にある「1-1.jpg」などを読み込みます。
+      // ★ images/ を削除し、画像を直接参照するように修正しました ★
       const imageMap = {
-        1: ['images/1-1.jpg', 'images/1-2.jpg'],
-        2: ['images/2-1.jpg', 'images/2-2.jpg'],
-        3: ['images/3-1.jpg', 'images/3-2.jpg'],
-        4: ['images/4-1.jpg', 'images/4-2.jpg'],
-        5: ['images/5-1.jpg', 'images/5-2.jpg'],
-        6: ['images/6-1.jpg', 'images/6-2.jpg'],
-        7: ['images/7-1.jpg', 'images/7-2.jpg'],
-        8: ['images/8-1.jpg', 'images/8-2.jpg'],
-        9: ['images/9-1.jpg', 'images/9-2.jpg'],
-        11: ['images/11-1.jpg', 'images/11-2.jpg'],
-        22: ['images/22-1.jpg', 'images/22-2.jpg'],
-        33: ['images/33-1.jpg', 'images/33-2.jpg']
+        1: ['1-1.jpg', '1-2.jpg'],
+        2: ['2-1.jpg', '2-2.jpg'],
+        3: ['3-1.jpg', '3-2.jpg'],
+        4: ['4-1.jpg', '4-2.jpg'],
+        5: ['5-1.jpg', '5-2.jpg'],
+        6: ['6-1.jpg', '6-2.jpg'],
+        7: ['7-1.jpg', '7-2.jpg'],
+        8: ['8-1.jpg', '8-2.jpg'],
+        9: ['9-1.jpg', '9-2.jpg'],
+        11: ['11-1.jpg', '11-2.jpg'],
+        22: ['22-1.jpg', '22-2.jpg'],
+        33: ['33-1.jpg', '33-2.jpg']
       };
 
-      // 結果の数字と画像をセット
       document.getElementById('result-number').innerText = resultNum;
       document.getElementById('result-img-1').src = imageMap[resultNum][0];
       document.getElementById('result-img-2').src = imageMap[resultNum][1];
       
-      // 結果エリアを表示
       document.getElementById('result-area').style.display = 'block';
     }
   </script>
