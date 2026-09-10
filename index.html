@@ -4,27 +4,40 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="robots" content="noindex,nofollow">
-  <title>愛犬の無料診断（試作版）</title>
+  <title>うちの子ナンバー™｜愛犬の無料診断</title>
   <style>
+    /* 背景画像の設定（縦長背景を全体に敷き詰め） */
     body {
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background-image: url('background_grid_vertical.jpg');
+      background-repeat: repeat;
+      background-size: 360px auto;
+      background-attachment: fixed;
       background-color: #fdfbf7;
       color: #4a4a4a;
       text-align: center;
-      padding: 20px;
+      padding: 20px 10px;
       margin: 0;
     }
     .container {
-      max-width: 500px;
+      max-width: 480px;
       margin: 0 auto;
-      background: #ffffff;
+      background: rgba(255, 255, 255, 0.95);
       padding: 30px 20px;
-      border-radius: 16px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+      border-radius: 20px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+      backdrop-filter: blur(4px);
     }
     h1 {
-      font-size: 1.5rem;
+      font-size: 1.6rem;
       color: #8b5cf6;
+      margin-top: 0;
+      margin-bottom: 10px;
+      letter-spacing: 0.05em;
+    }
+    .subtitle {
+      font-size: 0.9rem;
+      color: #666;
       margin-bottom: 20px;
     }
     input[type="date"] {
@@ -32,23 +45,39 @@
       padding: 12px;
       font-size: 1rem;
       border: 2px solid #e2e8f0;
-      border-radius: 8px;
+      border-radius: 10px;
       margin-bottom: 20px;
       outline: none;
+      box-sizing: border-box;
     }
-    button {
+    .submit-btn {
       background-color: #8b5cf6;
       color: white;
       border: none;
-      padding: 12px 32px;
-      font-size: 1rem;
+      padding: 14px 36px;
+      font-size: 1.05rem;
       font-weight: bold;
-      border-radius: 25px;
+      border-radius: 30px;
       cursor: pointer;
+      box-shadow: 0 4px 12px rgba(139, 92, 246, 0.3);
+      transition: transform 0.1s ease;
+    }
+    .submit-btn:active {
+      transform: scale(0.98);
     }
     #result-area {
       margin-top: 30px;
       display: none;
+    }
+    .result-title {
+      font-size: 1.2rem;
+      color: #333;
+      margin-bottom: 15px;
+    }
+    .result-number-highlight {
+      font-size: 1.6rem;
+      color: #8b5cf6;
+      font-weight: bold;
     }
     .image-container {
       display: flex;
@@ -60,53 +89,145 @@
       width: 100%;
       height: auto;
       border-radius: 12px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+    }
+
+    /* キャンペーン購入エリア */
+    .campaign-box {
+      margin-top: 35px;
+      padding: 20px 15px;
+      background: #fff0f3;
+      border: 2px dashed #ff6b81;
+      border-radius: 16px;
+    }
+    .badge {
+      display: inline-block;
+      background: #ff3366;
+      color: #fff;
+      font-size: 0.8rem;
+      font-weight: bold;
+      padding: 4px 12px;
+      border-radius: 20px;
+      margin-bottom: 8px;
+    }
+    .campaign-title {
+      font-size: 1.1rem;
+      font-weight: bold;
+      color: #d81159;
+      margin-bottom: 5px;
+    }
+    .price-info {
+      font-size: 0.95rem;
+      margin-bottom: 15px;
+      color: #444;
+    }
+    .price-highlight {
+      font-size: 1.4rem;
+      font-weight: bold;
+      color: #ff3366;
+    }
+    .old-price {
+      text-decoration: line-through;
+      color: #888;
+      font-size: 0.85rem;
+      margin-left: 5px;
     }
     .order-btn {
-      display: inline-block;
-      margin-top: 30px;
+      display: block;
       background-color: #ff6b81;
       color: white;
       text-decoration: none;
-      padding: 14px 28px;
+      padding: 14px 20px;
       font-size: 1rem;
       font-weight: bold;
-      border-radius: 25px;
-      box-shadow: 0 4px 10px rgba(255, 107, 129, 0.3);
+      border-radius: 30px;
+      box-shadow: 0 4px 12px rgba(255, 107, 129, 0.4);
+      transition: background-color 0.2s;
+    }
+
+    /* Instagram共有エリア */
+    .insta-box {
+      margin-top: 25px;
+      padding: 18px 15px;
+      background: #fdf2f8;
+      border-radius: 16px;
+      border: 1px solid #fbcfe8;
+    }
+    .insta-title {
+      font-size: 0.95rem;
+      font-weight: bold;
+      color: #c026d3;
+      margin-bottom: 10px;
+    }
+    .copy-btn {
+      background-color: #e879f9;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      font-size: 0.9rem;
+      font-weight: bold;
+      border-radius: 20px;
+      cursor: pointer;
+      margin-bottom: 10px;
+      box-shadow: 0 2px 8px rgba(232, 121, 249, 0.3);
+    }
+    .insta-link-btn {
+      display: inline-block;
+      color: #c026d3;
+      text-decoration: underline;
+      font-size: 0.85rem;
+      font-weight: bold;
     }
   </style>
 </head>
 <body>
 
   <div class="container">
-    <h1>🐾 愛犬の無料診断（試作版） 🐾</h1>
-    <p>生年月日を選択して「診断する」を押してください</p>
+    <h1>🐾 うちの子ナンバー™ 🐾</h1>
+    <p class="subtitle">愛犬のお誕生日から本質とメッセージを導き出します</p>
     
     <input type="date" id="birthdate">
     <br>
-    <button onclick="diagnose()">診断する</button>
+    <button class="submit-btn" onclick="diagnose()">診断する</button>
 
     <!-- 結果表示エリア -->
     <div id="result-area">
-      <h2>診断結果タイプ：<span id="result-number"></span></h2>
+      <div class="result-title">
+        診断結果：<span id="result-number" class="result-number-highlight"></span>
+      </div>
       
       <!-- 画像2枚の表示領域 -->
       <div class="image-container">
         <img id="result-img-1" class="result-image" src="" alt="診断結果画像1">
         <img id="result-img-2" class="result-image" src="" alt="診断結果画像2">
       </div>
+
+      <!-- Instagram共有エリア -->
+      <div class="insta-box">
+        <div class="insta-title">📸 Instagramで診断結果をシェア！</div>
+        <button class="copy-btn" onclick="copyShareText()">診断結果とタグをコピーする</button>
+        <br>
+        <a href="https://www.instagram.com/utinokono/?hl=ja" target="_blank" class="insta-link-btn">
+          公式Instagram（@utinokono）を開く ↗
+        </a>
+      </div>
       
-      <!-- 有料版への誘導ボタン（STORESのURLが決まったら下記を書き換えてください） -->
-      <div>
+      <!-- キャンペーン注文エリア -->
+      <div class="campaign-box">
+        <span class="badge">先着111名様限定</span>
+        <div class="campaign-title">🐾 ワンワンキャンペーン開催中！ 🐾</div>
+        <div class="price-info">
+          パーソナル鑑定書：<span class="price-highlight">￥1,111</span><span class="old-price">（通常 ￥2,000）</span>
+        </div>
         <a id="stores-link" href="https://あなたのSTORESショップURL.stores.jp" class="order-btn" target="_blank">
-          名前入り【パーソナル鑑定書】を注文する（1,111円）
+          名前入り【パーソナル鑑定書】を注文する
         </a>
       </div>
     </div>
   </div>
 
   <script>
-    // ★ 簡易パスワード機能（"nakamura" に設定済み） ★
+    // ★ 簡易パスワード機能 ★
     const PASSWORD = "nakamura";
     
     let userInput = prompt("パスワードを入力してください（関係者限定）");
@@ -114,6 +235,24 @@
       alert("パスワードが違います。ページを読み込み直してください。");
       document.body.innerHTML = "<h2 style='margin-top:50px;'>閲覧権限がありません。</h2>";
     }
+
+    // ナンバーに対応する犬種・カラー情報のマッピング
+    const infoMap = {
+      1: { name: 'シェパード', color: 'レッド (RED)' },
+      2: { name: 'ヨークシャー', color: 'ピンク (PINK)' },
+      3: { name: 'プードル', color: 'オレンジ (ORANGE)' },
+      4: { name: '柴', color: 'グリーン (GREEN)' },
+      5: { name: 'ハスキー', color: 'スカイブルー (SKY BLUE)' },
+      6: { name: 'フレンチブル', color: 'コーラル (CORAL)' },
+      7: { name: 'チワワ', color: 'ブルー (BLUE)' },
+      8: { name: 'シュナウザー', color: 'パープル (PURPLE)' },
+      9: { name: 'ゴールデン', color: 'イエロー (YELLOW)' },
+      11: { name: 'ダックス', color: 'シルバー (SILVER)' },
+      22: { name: '秋田犬', color: 'ゴールド (GOLD)' },
+      33: { name: 'ラブラドール', color: 'パステルレインボー (特別色)' }
+    };
+
+    let currentResultNum = null;
 
     // 数秘計算ロジック
     function calculateNumber(dateString) {
@@ -134,7 +273,7 @@
       return sum;
     }
 
-    // 診断実行関数（直下参照ファイル名指定）
+    // 診断実行関数
     function diagnose() {
       const dateInput = document.getElementById('birthdate').value;
       if (!dateInput) {
@@ -142,8 +281,9 @@
         return;
       }
 
-      const resultNum = calculateNumber(dateInput);
-      
+      currentResultNum = calculateNumber(dateInput);
+      const info = infoMap[currentResultNum];
+
       const imageMap = {
         1: ['1-1.jpg', '1-2.jpg'],
         2: ['2-1.jpg', '2-2.jpg'],
@@ -159,11 +299,25 @@
         33: ['33-1.jpg', '33-2.jpg']
       };
 
-      document.getElementById('result-number').innerText = resultNum;
-      document.getElementById('result-img-1').src = imageMap[resultNum][0];
-      document.getElementById('result-img-2').src = imageMap[resultNum][1];
+      document.getElementById('result-number').innerText = `No.${currentResultNum} ${info.name}（${info.color}）`;
+      document.getElementById('result-img-1').src = imageMap[currentResultNum][0];
+      document.getElementById('result-img-2').src = imageMap[currentResultNum][1];
       
       document.getElementById('result-area').style.display = 'block';
+    }
+
+    // クリップボードへコピーする機能
+    function copyShareText() {
+      if (!currentResultNum) return;
+      const info = infoMap[currentResultNum];
+      
+      const textToCopy = `うちの子ナンバー診断結果は【No.${currentResultNum} ${info.name}（${info.color}）】でした！🐾✨\n\n#うちの子ナンバー #愛犬診断`;
+
+      navigator.clipboard.writeText(textToCopy).then(() => {
+        alert("診断結果とハッシュタグをコピーしました！\nInstagramの投稿本文に貼り付けてシェアしてください🐾");
+      }).catch(err => {
+        alert("コピーに失敗しました。お手数ですが手動でご入力ください。");
+      });
     }
   </script>
 
